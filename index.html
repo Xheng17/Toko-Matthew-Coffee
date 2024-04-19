@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matthew Coffee</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- AlpineJS -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- App -->
+    <script src="src/app.js" async></script>
+
+    <!-- cdnjs Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <!-- Navbar start -->
+    <nav class="navbar" x-data>
+      <a href="index.html" class="navbar-logo">Matthew<span>Coffee</span></a>
+
+      <div class="navbar-nav">
+        <a href="#">Home</a>
+        <a href="#about">Tentang</a>
+        <a href="#menu">Menu</a>
+        <a href="#order">Order</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="#" id="shopping-cart-button">
+          <i data-feather="shopping-cart"></i>
+          <span
+            class="quantity-badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
+        </a>
+        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <!-- Shooping Card start -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+          <div class="cart-item">
+            <img :src="`img/${item.img}`" :alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span> &times;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
+          Cart is Empty
+        </h4>
+        <h4 x-show="$store.cart.items.length">
+          Total : <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
+
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input
+              type="hidden"
+              name="items"
+              x-model="JSON.stringify($store.cart.items)"
+            />
+            <input type="hidden" name="total" x-model="$store.cart.total" />
+            <h5>Customer Detail</h5>
+
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+            <label for="Email">
+              <span>Email</span>
+              <input type="email" name="email" id="email" />
+            </label>
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+
+            <button
+              class="checkout-button disabled"
+              type="submit"
+              id="checkout-button"
+              value="checkout"
+            >
+              Checkout
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Shooping Card end -->
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Home Section start -->
+    <section class="home" id="home">
+      <main class="content">
+        <h1>Selamat Datang di Dunia<span> Kopi</span> Kami</h1>
+        <p>Jadikan Setiap Hari Lebih Istimewa dengan Kopi Kami.</p>
+        <a href="#order" class="cta">Beli Sekarang</a>
+      </main>
+    </section>
+    <!-- Home Section end -->
+
+    <!-- About Section start -->
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+      <div class="row">
+        <div class="about-img">
+          <img src="img/about.png" alt="Tentang Kami" />
+        </div>
+        <div class="content">
+          <h3>Kenapa memilih Kopi kami?</h3>
+          <p>
+            Kami memilih biji kopi berkualitas tinggi, dipanggang dengan
+            hati-hati untuk memastikan cita rasa yang konsisten dan memuaskan
+            setiap kali Anda menyeruputnya.
+          </p>
+          <p>
+            Kami juga berkomitmen untuk memberikan pengalaman baru yang
+            menggugah lidah dengan berbagai pilihan minuman kopi yang inovatif
+            dan menarik. Nikmati sentuhan kreativitas kami dalam setiap tegukan.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- About Section end -->
+
+    <!-- Menu Section start -->
+    <section id="menu" class="menu">
+      <h2><span>Menu</span> Kami</h2>
+      <p>
+        Selamat datang di dunia rasa kami! Nikmati petualangan cita rasa yang
+        tak terlupakan dengan berbagai pilihan minuman istimewa dari menu kami.
+      </p>
+      <div class="row">
+        <div class="menu-card">
+          <img src="img/HzL.png" alt="Hazelnut Latte" class="menu-card-img" />
+          <h3 class="menu-card-title"><span>Hazelnut</span> Latte</h3>
+          <p class="menu-card-price">
+            Rasakan sensasi espresso yang kaya dengan sentuhan manis hazelnut
+            yang memikat, disempurnakan dengan susu yang lembut dan creamy.
+            Minuman ini adalah harmoni cita rasa yang memanjakan lidah.
+          </p>
+        </div>
+        <div class="menu-card">
+          <img src="img/CmL.png" alt="Caramel Latte" class="menu-card-img" />
+          <h3 class="menu-card-title"><span>Caramel</span> Latte</h3>
+          <p class="menu-card-price">
+            Hadir dengan paduan sempurna antara espresso yang berani dengan
+            kelembutan karamel yang kaya rasa. Ditambah dengan susu yang
+            diuapkan, minuman ini adalah perpaduan yang memikat antara manis dan
+            pahit yang tidak bisa Anda lewatkan.
+          </p>
+        </div>
+        <div class="menu-card">
+          <img src="img/ChC.png" alt="Chocolate Coffee" class="menu-card-img" />
+          <h3 class="menu-card-title"><span>Chocolate</span> Coffee</h3>
+          <p class="menu-card-price">
+            Menggoda dengan aroma dan rasa cokelat yang memikat, minuman ini
+            menyajikan perpaduan espresso yang kuat dengan kelembutan cokelat
+            yang memanjakan. Ideal bagi pecinta kopi dan cokelat untuk
+            menyegarkan hari mereka.
+          </p>
+        </div>
+        <div class="menu-card">
+          <img src="img/CL.png" alt="Coffee Latte" class="menu-card-img" />
+          <h3 class="menu-card-title">Coffee <span>Latte</span></h3>
+          <p class="menu-card-price">
+            Kesempurnaan dalam kesederhanaan, minuman ini menyajikan espresso
+            yang diperkaya dengan susu yang diuapkan, memberikan cita rasa yang
+            halus dan kaya. Cocok untuk Anda yang mencari kenikmatan klasik
+            dalam secangkir kopi.
+          </p>
+        </div>
+        <div class="menu-card">
+          <img
+            src="img/CBS.png"
+            alt="Coffee Brown Sugar"
+            class="menu-card-img"
+          />
+          <h3 class="menu-card-title">Coffee <span>Brown Sugar</span></h3>
+          <p class="menu-card-price">
+            Kehangatan espresso bertemu dengan kemanisan gula merah, menciptakan
+            paduan cita rasa yang unik dan memikat. Susu yang diuapkan menambah
+            kelembutan pada setiap tegukan, membuat minuman ini pilihan yang
+            memuaskan.
+          </p>
+        </div>
+        <div class="menu-card">
+          <img src="img/SE.png" alt="Sanger Espresso" class="menu-card-img" />
+          <h3 class="menu-card-title">Sanger <span>Espresso</span></h3>
+          <p class="menu-card-price">
+            Dengan ciri khasnya yang kuat dan karakternya yang berani, Sanger
+            Espresso adalah pilihan bagi mereka yang mencari pengalaman kopi
+            yang autentik. Dinikmati sebagai espresso atau digabungkan dengan
+            susu untuk menciptakan minuman klasik yang memukau.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Menu Section end -->
+
+    <!-- order Section start -->
+    <section class="order" id="order" x-data="order">
+      <h2><span>Order</span> disini!</h2>
+      <p>
+        Petunjuk : Tekan icon Keranjang Belanja untuk memasukkan Menu kedalam
+        Daftar Keranjang Belanja.
+      </p>
+      <p>Anda akan dialihkan ke WhatsApp ketika Checkout Belanja</p>
+
+      <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+          <div class="order-card">
+            <div class="order-icons">
+              <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#shopping-cart" />
+                </svg>
+              </a>
+              <!-- <a href="#" class="item-detail-button">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a> -->
+            </div>
+            <div class="order-image">
+              <img :src="`img/${item.img}`" :alt="item.name" />
+            </div>
+            <div class="order-content">
+              <h3 x-text="item.name"></h3>
+            </div>
+            <div class="order-price" x-text="rupiah(item.price)"></div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <!-- order Section end -->
+
+    <!-- Contact Section start -->
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+      <div class="contact-card">
+        <a href="http://wa.me/6282366377255" class="contact-number">
+          <div>
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          +6282366377255
+        </a>
+      </div>
+      <p>Alamat Kami :</p>
+      <p>
+        Gg. Mesjid, Sidorejo, Kec. Medan Tembung, Kota Medan, Sumatera Utara
+        20222
+      </p>
+
+      <div class="address">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d400.1592453177497!2d98.70215245363002!3d3.6077810758350175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303131a0625ec3bd%3A0x4b22ed9b48449164!2sKos%20pak%20coy!5e0!3m2!1sid!2sid!4v1712541595503!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
+      </div>
+    </section>
+    <!-- Contact Section end -->
+
+    <!-- Footer start -->
+    <footer>
+      <div class="social">
+        <a href="https://www.instagram.com/matthew.coffee_"
+          ><i data-feather="instagram"></i
+        ></a>
+      </div>
+
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#menu">Menu</a>
+        <a href="#order">Order</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="credit">
+        <p>
+          Created by
+          <a href="https://www.instagram.com/aseng_tamba">Aseng Tamba</a> &copy;
+          2024
+        </p>
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
