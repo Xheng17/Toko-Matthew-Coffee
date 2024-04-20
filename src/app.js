@@ -120,5 +120,5 @@ checkoutButton.addEventListener("click", function (e) {
   const data = new URLSearchParams(formData);
   const objData = Object.fromEntries(data);
   const message = formatMessage(objData);
-  window.open("http://wa.me/6282366377255?text=" + encodeURIComponent(message));
+  window.open("http://wa.me/6287797641366?text=" + encodeURIComponent(message));
 });
