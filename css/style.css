@@ -608,7 +608,6 @@ footer .credit a:hover {
   #hamburger-menu {
     display: inline-block;
   }
-
   .navbar .navbar-nav {
     position: absolute;
     top: 100%;
@@ -618,7 +617,6 @@ footer .credit a:hover {
     height: 100vh;
     transition: 0.3s;
   }
-
   .navbar .navbar-nav.active {
     right: 0%;
   }
